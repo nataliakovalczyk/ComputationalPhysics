@@ -1,0 +1,89 @@
+\documentclass[7pt]{article}
+%\usetheme{Warsaw}
+
+%\usepackage{beamerinnerthemecircles, beamerouterthemeshadow}
+%\usepackage{scrextend}
+
+%\changefontsizes{7pt}
+
+
+% Standard packages
+\usepackage{graphicx}
+\usepackage{graphics}
+
+\usepackage{color}
+\usepackage[OT4]{fontenc}
+\usepackage[utf8]{inputenc}
+%\usepackage[latin1]{inputenc}
+\usepackage{times}\usepackage{amsmath}
+\usepackage[T1]{fontenc}
+
+%\mode<presentation> {
+%    \usetheme{Singapore} %Bergen, Berkely, Berlin, Boadilla, CambridgeUS, Darmstadt,
+%                          %Frankfurt, Goettingen, Singapore, Warsaw
+%    \usecolortheme{default} %beetle, seahorse, wolverine, dolphin, beaver
+%}
+
+
+\title{2D membrane vibrations (FD version)}
+
+\definecolor{whi}{rgb}{0.95,0.95,0.95}
+% Setup TikZ
+
+%\usepackage{tikz}
+%\usetikzlibrary{arrows}
+%\tikzstyle{block}=[draw opacity=0.7,line width=1.4cm]
+
+
+% Author, Title, etc.
+
+
+
+
+% The main document
+
+\begin{document}
+\maketitle
+
+
+
+
+\section{the problem}
+
+
+We solve the wave equation for $\Psi$ its deviation from the equlibrium position at ($x,y$) point
+with damping 
+\begin{equation} \frac{\partial^2 \Psi}{\partial t^2}=v^2\nabla^2\Psi -2d\frac{\partial u}{\partial t}\end{equation}
+for a square membrane $(x,y)\in(0,L)\times(0,L)$ using the finite element method. We set the speed of sound equal to $v=1$, the size $L=1$,
+and the damping constant $2d=1$. In the central node of the mesh $(c,c)$ we apply a periodic force $\sin\omega t$
+
+We use a finite difference approach on a 2D mesh. 
+Upon discretization of the derivatives with the usual approach for the second one and $\frac{\partial u}{\partial t}\simeq \frac{u(t)-u(t-\Delta t)}{\Delta t}$
+we get 
+\begin{eqnarray}
+u_{ij}(t+\Delta t)=u_{ij}(t)[2-2d \Delta t]+u_{ij}(t-\Delta t)(2d \Delta t -1)+\\\frac{\Delta t^2 v^2}{\Delta x^2}(u_{i+1,j}(t)+u_{i-1,j}(t)+u_{i,j+1}(t)+u_{i,j-1}(t)-4u_{i,j}(t)) \\
++\delta_{i,c}\delta_{j,c}\Delta t^2\sin(\omega t).
+\end{eqnarray}
+
+We start from a standing membrane $u(0)=u(\Delta t)=0$. 
+$\Delta x=L/N$, for $N\times N$ mesh. Lets set $v\Delta t=\Delta x/2$.
+We monitor the energy $E(t)=0.5\int_0^Ldx\int_0^Ldy\left[(\frac{\partial u}{\partial t})^2+(\frac{\partial u}{\partial x})^2+(\frac{\partial u}{\partial y})^2\right]$.
+We integrate the equation till $t=80$. 
+
+\section{Deliverables}
+\begin{itemize} \item
+Lets set $\omega=\pi$. Does the motion obtained a periodic form?
+\item 
+Lets us assume that the first 10 units of time is necessary for the membrane vibrations to reach their stationary form.
+We evaluate the average energy over the time interval $(10,80)$.
+The average energy is $\langle E \rangle(\omega)=\frac{1}{70} \int_{10}^{80} dt E(t)$.
+
+Plot $\langle E \rangle(\omega)$ for $\omega=(1.5,15)$.
+\item Determine the resonant frequencies.
+\item How the resonant peaks react to the change of the damping constant?
+\end{itemize}
+\end{document}
+
+
+
+

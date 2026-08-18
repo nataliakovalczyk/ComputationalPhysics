@@ -1,0 +1,114 @@
+\documentclass[7pt]{article}
+%\usetheme{Warsaw}
+
+%\usepackage{beamerinnerthemecircles, beamerouterthemeshadow}
+%\usepackage{scrextend}
+
+%\changefontsizes{7pt}
+
+
+% Standard packages
+\usepackage{graphicx}
+\usepackage{graphics}
+
+\usepackage{color}
+\usepackage[OT4]{fontenc}
+\usepackage[utf8]{inputenc}
+%\usepackage[latin1]{inputenc}
+\usepackage{times}\usepackage{amsmath}
+\usepackage[T1]{fontenc}
+
+%\mode<presentation> {
+%    \usetheme{Singapore} %Bergen, Berkely, Berlin, Boadilla, CambridgeUS, Darmstadt,
+%                          %Frankfurt, Goettingen, Singapore, Warsaw
+%    \usecolortheme{default} %beetle, seahorse, wolverine, dolphin, beaver
+%}
+
+
+\title{Forced oscillations for an electron in a 2D square infinite quantum well}
+
+\definecolor{whi}{rgb}{0.95,0.95,0.95}
+% Setup TikZ
+
+%\usepackage{tikz}
+%\usetikzlibrary{arrows}
+%\tikzstyle{block}=[draw opacity=0.7,line width=1.4cm]
+
+
+% Author, Title, etc.
+
+
+
+
+% The main document
+
+\begin{document}
+\maketitle
+
+
+
+
+\section{the problem}
+
+We return to the problem of an electron in a 2D infinite quantum well (three assignments back).
+We will try to simulate the transitions driven by an external electric field. 
+For that purpose we introduce a time-dependent Hamiltonian $H(t)=H_0+eFx \sin\omega t$,
+where $H_0$ is the stationary Hamiltonian from the previous assignement and the second term introduced
+the electric field potential with the amplitude eF, oriented along the  $x$ direction and changing
+with the freqency of $\omega$. 
+The dynamics is governed by the Schroedinger equation
+\begin{equation} i\hbar \frac{\partial \Psi}{\partial t}=H(t)\Psi\end{equation}
+For the initial moment in time we set the ground-state -- that you calculated three assignments ago.
+
+\subsection{potential matrix}
+Now, we need to include the electric potential to the Hamiltonian. We will need a global matrix 
+of a {\it uniform} electric field $eFx$. Each element has its own local matrix of this potential. The local
+matrix of this potential is different in each element -- unlike the kinetic energy operator. 
+
+We calculate the local potential mattrices with 
+$$v^k_{ji}=\frac{a^2}{4} \frac{m\omega^2}{2}\int_{\Omega_k} eF x(\xi_1) g_j(\xi_1,\xi_2) g_i(\xi_1,\xi_2)d\xi_1 d\xi_2.$$
+We use the Gauss quadrature as previously, only now wee need to evaluate $x$ for the Gauss points
+and they will be different in each element.
+$$v^k_{ji}=\frac{a^2}{4}\frac{m\omega^2}{2}\sum_{l=1}^3\sum_{n=1}^3  w_l w_n eF x(p_l) g_j(p_l,p_n) g_i(p_l,p_n)$$
+The evaluation of $x$ proceeds as previously
+\begin{eqnarray}
+x(\xi_1,\xi_2)&=&\sum_{i=1}^4 x_{nlg(k,i)}g_i(\xi_1,\xi_2).\label{wzor} 
+\end{eqnarray}
+After evaluation of the local matrix elements we produce the global matrix $V$ -- in the manner that we used
+for our previous FEM projects.
+
+Our wave function is still expanded in the basis of shape functions but the coefficients $c_i$ now depend on time
+   \begin{equation} \Psi=\sum_{i=1}^N c_i(t) h_i(x,y).\end{equation} 
+The Crank-Nicolson scheme for our problem produces a linear system of equations for $c_i(t+\Delta t)$ that needs to be solved for each time step.
+\begin{equation}
+\Psi(t+\Delta t)=\Psi(t)+\frac{\Delta t}{2\hbar i} \left(H(t+\Delta t)\Psi(t+\Delta t)+H(t)\Psi(x,t)\right).
+\end{equation}
+Upon substitution of the expansion in the basis we get 
+{
+\begin{equation}
+\left[{\bf S}-\frac{\Delta t}{2\hbar i} {\bf H}(t+\Delta t)\right]{\bf c}(t+\Delta t)=\left[{\bf S}+\frac{\Delta t}{2\hbar i}{\bf H}(t)\right]{\bf c}(t),
+\end{equation}
+}
+where ${\bf H}(t)={\bf H}_0+{\bf V} \sin(\omega t)$.
+
+Lets set $\omega=\Delta E/\hbar$ where $\Delta E=E_1-E_0$ and $eF=1/L$, $\Delta t=0.25$.
+We need to monitor (1) the conservation of the norm of the wave function
+$N(t)={\bf c(t)}^T {\bf O} {\bf c(t)}$ where ${\bf O}$ is the overlap matrix
+and (2) 
+the projections of the wave function on the $H_0$ eigenstates
+$p_i(t)=\langle \Psi_i | \Psi(t)\rangle={\bf c}_i^T {\bf O} {\bf c(t)}$.
+The probability that the electron occupies eigenstate $i$ in the moment in time $t$ is $|p_i|^2$.
+
+\section{Deliverables}
+\begin{itemize}
+\item Plot $|p_i(t)|^2$ for the lowest-energy states. What is the probability of the electron transition probability to one of the two degenerate first
+excited states ?
+\item Replace $\omega$ but half of the nominal resonant value. What is the result now? 
+\item get back to the resonant $\omega$. What is the leakage of the wave function to the higher energy states
+than the ground-state and the higher excited states and how the leakage depends on the amplitude of the field.
+\end{itemize}
+\end{document}
+
+
+
+
