@@ -1,0 +1,63 @@
+\documentclass[10pt,a4paper]{article}
+
+\usepackage{graphicx}
+\usepackage{graphics}
+\usepackage{color}
+\usepackage[utf8]{inputenc}
+\usepackage{times}
+\usepackage{amsmath}
+\usepackage[T1]{fontenc}
+
+\title{Time-dependent Schroedinger equation (finite difference approach)}
+\date{}
+
+\begin{document}
+\maketitle
+\small
+
+We use the 2D  harmonic oscillator from the previous assignment 
+\begin{equation}
+V(x,y)=\frac{1}{2}m\left(\omega_x^2 x^2 + \omega_y^2 y^2\right).
+\end{equation}
+
+We assume a rectangular grid of size $N \times N$. The choice of $N$ -- as large as possible for a calculation that lasts not more than 2 minutes.
+We use the atomic units with $m=m_e=1$,  $\hbar=1$. Lets take $\omega_x=1$ and $\omega_y=1.001$ (a change with respect to the last week).
+
+We will solve the Schroedinger equation \begin{equation} i\hbar \frac{\partial \Psi}{\partial t}=H \Psi\end{equation}
+for a time-independent potential. 
+
+The wave function in the initial moment is given by \begin{equation}\Psi(t=0)=\frac{1}{\sqrt{3}}\left(\Psi_0+\Psi_1+i\Psi_2\right),\end{equation}
+Where $\Psi_0, \Psi_1,\Psi_2$ are the Hamiltonian eigenstates -- the lowest-energy state, the first-, and the second-excited states, respectively.  
+
+
+
+\section*{Crank-Nicolson scheme}
+We use the Crank-Nicolson scheme for solution of the Schroedinger equation
+\begin{equation}
+\Psi(t+\Delta t)=\Psi(t)+\frac{\Delta t}{2 i\hbar}\left(H\Psi(t)+H\Psi(t+\Delta t)\right)
+\end{equation}
+
+Lets use an iterative scheme for the time-stepping
+\begin{equation}
+\Psi(t+\Delta t)^{\nu+1}=\Psi(t)+\frac{\Delta t}{2 i\hbar}\left(H\Psi(t)+H\Psi(t+\Delta t)^\nu\right).
+\end{equation}
+We can take $\Psi(t+\Delta t)^0=\Psi(t)$.
+
+The choice of the time-step and the number of iterations depend on our choice of $N$.
+For $\Delta x=\frac{1}{8}$ and $\Delta t=0.001$ the number of iterations 
+necessary for convergence is $\simeq 5$.
+
+\section*{Tasks}
+\begin{itemize}
+\item For our initial condition the motion of the packet should be periodic with period ${2\pi}$. 
+\item Lets cover the time over 2 nominal periods of motion. 
+\item 
+Plot the norm and the average energy as a function of time. 
+\item Plot the average $\langle x \rangle (t)$ and $\langle y\rangle (t)$. 
+\item Is $\langle y (\langle x\rangle ) \rangle$ a closed loop? 
+\item Can you make the wave packet turn in the other direction ?
+\item Can you make it oscillate in $x$ or $y$ direction without a rotation?
+\item What happens if $\Psi(0)=\Psi_i$ (the eigenstate is set as the initial state)?
+\end{itemize}
+
+\end{document}
