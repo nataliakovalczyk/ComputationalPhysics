@@ -1,5 +1,5 @@
 <div align="center">
-# ComputationalPhysics
+## ComputationalPhysics
 
 Numerical simulations and analysis from **Computational Physics 1 & 2** coursework.
 
