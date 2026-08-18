@@ -1,0 +1,93 @@
+\documentclass[7pt]{article}
+%\usetheme{Warsaw}
+
+%\usepackage{beamerinnerthemecircles, beamerouterthemeshadow}
+%\usepackage{scrextend}
+
+%\changefontsizes{7pt}
+
+
+% Standard packages
+\usepackage{graphicx}
+\usepackage{graphics}
+
+\usepackage{color}
+\usepackage[OT4]{fontenc}
+\usepackage[utf8]{inputenc}
+%\usepackage[latin1]{inputenc}
+\usepackage{times}\usepackage{amsmath}
+\usepackage[T1]{fontenc}
+
+%\mode<presentation> {
+%    \usetheme{Singapore} %Bergen, Berkely, Berlin, Boadilla, CambridgeUS, Darmstadt,
+%                          %Frankfurt, Goettingen, Singapore, Warsaw
+%    \usecolortheme{default} %beetle, seahorse, wolverine, dolphin, beaver
+%}
+
+
+\title{Wave equation for a 2D membrane (FEM version)}
+
+\definecolor{whi}{rgb}{0.95,0.95,0.95}
+% Setup TikZ
+
+%\usepackage{tikz}
+%\usetikzlibrary{arrows}
+%\tikzstyle{block}=[draw opacity=0.7,line width=1.4cm]
+
+
+% Author, Title, etc.
+
+
+
+
+% The main document
+
+\begin{document}
+\maketitle
+
+
+
+
+\section{the problem}
+
+
+We solve the wave equation for $\Psi$ its deviation from the equlibrium position at ($x,y$) point,
+\begin{equation} \frac{\partial^2 \Psi}{\partial t^2}=v^2\nabla^2\Psi \end{equation}
+for a square membrane $(x,y)\in(0,L)\times(0,L)$ using the finite element method. We set the speed of sound equal to $v=1$ and $L=5$.
+We will be using the finite element method
+ \begin{equation} \Psi(t)=\sum_{i=1}^N c_i(t) h_i(x,y).\end{equation} 
+Upon discretization of time we get a formula \begin{equation}\Psi(t+\Delta t)=v^2\Delta t^2 \nabla ^2 \Psi |_t+2\Psi(t)-\Psi(t-\Delta t).\end{equation}
+We subsitute the expansion in the shape function basis (1) and project the result on the basis elements. We get a linear system of equations for
+the time step for the internal points of the computational box:
+
+\begin{equation}
+{\bf O}{\bf c}(t+\Delta t)=\left[-v^2\Delta t^2 {\bf S}+2 {\bf O}\right]{\bf c}(t)-{\bf Oc}(t-\Delta t),
+\end{equation}
+where ${\bf S}$ is the stiffness matrix (the matrix of the $-\nabla^2$ operator of the 2nd assignement of this course),
+and ${\bf O}$ is the overlap matrix.
+For the points at the nodes we replace the above equation by $c_k(t+\Delta t)=0$, where $k$ is a node at the boundary.
+We add the central point to the boundary and we in each moment in time we set $c_i(t)=\sin\omega t$, where $i$
+is the central node of our mesh. 
+
+For the initial condition we take the membrane that is not deformed and not moving $\Psi(0)=\Psi(\Delta t)=0$.
+
+
+
+
+%where ${\bf H}(t)={\bf H}_0+{\bf V} \sin(\omega t)$.
+
+Let us assume that 
+
+\section{Deliverables}
+\begin{itemize}
+\item find $\Delta t$ for which the scheme is stable.
+\item illustrate the membrane vibrations for $\omega=\pi/L$
+\item do we reach a stationary state of the vibrations ?
+\item what about $\omega=2\pi/L$ and $\omega=\sqrt{2.0}\pi/L$ ?
+
+\end{itemize}
+\end{document}
+
+
+
+
