@@ -1,6 +1,4 @@
 <div align="center">
-  <img src="./Lab1/trajectories.png" alt="Computational Physics simulation preview" width="520" />
-
 # ComputationalPhysics
 
 Numerical simulations and analysis from **Computational Physics 1 & 2** coursework.
@@ -22,9 +20,6 @@ Each module typically includes:
 - a **C++ implementation** of the simulation,
 - a **Python post-processing script** for plots,
 - generated data files, figures, and a report PDF.
-
-> [!NOTE]
-> There is no dedicated project logo/icon in the repository. The header image above uses one of the generated simulation figures.
 
 ## What’s included
 
@@ -108,13 +103,6 @@ Inside each lab/project directory you will generally find:
 - `*.csv`, `*.dat`, `*.txt` outputs
 - `*.png` figures
 - `*_report.pdf` report deliverables
-
-## Typical workflow
-
-1. Enter a module directory.
-2. Build and run the C++ simulation to generate raw outputs.
-3. Run the Python script to produce plots.
-4. Review generated figures and report files.
 
 ## Scope at a glance
 
