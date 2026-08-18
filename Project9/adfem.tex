@@ -1,0 +1,91 @@
+\documentclass[7pt]{article}
+%\usetheme{Warsaw}
+
+%\usepackage{beamerinnerthemecircles, beamerouterthemeshadow}
+%\usepackage{scrextend}
+
+%\changefontsizes{7pt}
+
+
+% Standard packages
+\usepackage{graphicx}
+\usepackage{graphics}
+
+\usepackage{color}
+\usepackage[OT4]{fontenc}
+\usepackage[utf8]{inputenc}
+%\usepackage[latin1]{inputenc}
+\usepackage{times}\usepackage{amsmath}
+\usepackage[T1]{fontenc}
+
+%\mode<presentation> {
+%    \usetheme{Singapore} %Bergen, Berkely, Berlin, Boadilla, CambridgeUS, Darmstadt,
+%                          %Frankfurt, Goettingen, Singapore, Warsaw
+%    \usecolortheme{default} %beetle, seahorse, wolverine, dolphin, beaver
+%}
+
+
+\title{Wave equation for a 2D membrane (FEM version)}
+
+\definecolor{whi}{rgb}{0.95,0.95,0.95}
+% Setup TikZ
+
+%\usepackage{tikz}
+%\usetikzlibrary{arrows}
+%\tikzstyle{block}=[draw opacity=0.7,line width=1.4cm]
+
+
+% Author, Title, etc.
+
+
+
+
+% The main document
+
+\begin{document}
+\maketitle
+
+
+
+
+\section{the problem}
+
+
+We solve the advection-diffusion equation
+\begin{equation} \frac{\partial u}{\partial t}=-v_x\frac{\partial u}{\partial x} - v_y\frac{\partial u}{\partial y} +D\nabla^2 u, \end{equation}
+with the velocity field $(v_x,v_y)$ and the diffusion constant independent of the position.
+We use a square computational box $(x,y)\in(0,L)\times(0,L)$ and the finite element method and introduce a periodic boundary conditions
+\begin{equation} u(x+mL,y+nL)=u(x,y) \end{equation} for integer $m$ and $n$. In FEM application of the periodic boundary conditions is easy:
+the nodes from the edges of the box should be attributed the same global number, e.g. the node at the upper edge $(x,L)$ gets the same global number as the node
+in the position $(x,0)$ etc. 
+
+In our previous assignments we had evaluated the global matrix of $-\nabla^2$ (the stiffness matrix {\bf S}).
+We need to evaluate the matrix of the advection operator. For a constant velocity the local matrix
+is the same for all the elements. The local matrix for the first derivative in $x$ direction is evaluated as  
+$$(\frac{\partial}{\partial x})_{ji}=\frac{a}{2}\sum_{l}\sum_{n}  w_l w_n  g_j(p_l,p_n)\frac{ g_i(p_l+\Delta,p_n)-g_i(p_l-\Delta,p_n)}{2\Delta }.$$
+We evaluate similarily $(\frac{\partial}{\partial y})$ matrix and the assembled global matrix of the advection operator is denoted by ${\bf C}$,
+and the overlap matrix is denoted by ${\bf O}$
+
+The Crank-Nicolson step is calculated as the solution of the linear system of equations
+$$\left({\bf O} -\frac{\Delta t}{2}({\bf C-S})\right){\bf c}(t+\Delta t)=\left({\bf O} +\frac{\Delta t}{2}({\bf C-S})\right){\bf c}(t).$$
+
+
+Lets set $\Delta t=0.02$, $L=5$ and the initial condition:   $u(x,y)=\exp(-2(x-L/2)^2-2(y-L/2)^2)$.
+
+
+
+
+%where ${\bf H}(t)={\bf H}_0+{\bf V} \sin(\omega t)$.
+
+
+\section{Deliverables}
+\begin{itemize}
+\item pure advection $D=0$, $v_x=v_y=1$. Solve the equations till the center of the density returns to its initial position second time. Is its shape constant?
+\item pure diffusion $D=0.1$, $v_x=v_y=0$.  Plot the minimal and maximal values of $u$ at the nodes as a function of time.
+\item advection diffusion $D=0.1$, $v_x=v_y=1$. Is the velocity of the center of the packet equal to the velocity field vector?
+\end{itemize}
+\end{document}
+
+
+
+
